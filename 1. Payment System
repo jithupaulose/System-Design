@@ -1,1 +1,21 @@
 
+Introduction
+Payment System for Ecommerce Website
+
+For introduction:
+
+Anology to a kid. Suppose you want to buy a toy from a shop. how you are buying. You are paying using Money. You can use cash, cards, checks etc. 
+Payment System Handles the smooth transfer of money in between one system to other.
+Examples:
+--> In Amazon, ordering a Toy. First you enter your card details, Payment system deduct the price from your
+card and process it and ship the order to the address you mentioned.
+Here money tranfered from your account  --> Amazon account
+Amazon is not the real  supplier of the product.
+Amazon takes the commision and transportation cost and send the rest amount to the suppliers
+
+Cash flow from Customer --> AMAZON --> Supplier
+
+We are going to design the entire system.
+
+It should be reliable, scalable and Flexible Payments
+
