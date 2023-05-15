@@ -38,3 +38,15 @@ Credit cards, Bank Transfer, Debit Cards
 7. So we need to support cash-in-flow and cash-out-flow
 cash-in-flow = customer --> Ecommerce Account 
 cash-out-flow = Ecommerce Account --> Supplier
+
+Functional & Non-Functional Requirements ::
+Functional Requirements:
+
+Cash-in-flow == Payment system recieves money from customers on behalf of sellers
+Pay-out-flow == Sellers recieved the money once the shipping is completed to the customer after deducting the commision & logistics fees from Ecommerce site
+
+Non-Functional Requirements:
+
+Since it is a financial usecases, should focus on reliablity and Fault Tolerance. Payments should be carefully handled.
+
+Reconcilaiation process at the end of the day to validate the transactions and making sure that system is consistent.
