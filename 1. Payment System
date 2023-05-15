@@ -19,3 +19,22 @@ We are going to design the entire system.
 
 It should be reliable, scalable and Flexible Payments
 
+Question ask to Interviewer:
+Questions to Ask:
+
+1. What kind of Payment system that we are building ?
+Ans: Are we buidling the backend side of a payment system of Ecommerce Website. When the customer place the order, we have to handle everything till the customer recive the product.
+
+2. What all payment options supports?
+Credit cards, Bank Transfer, Debit Cards
+
+3. Do we need to handle the Payment procssing by ourselfs or using 3rd party services like Stripe, Square etc.
+4. So we dont need to store the credit card informations for security and complaince requirements. 
+
+5. Does this application go Global ? Need to accept other curriencies and international payments? Yes
+
+6. How many transactions per Day ? 1 million or 10 Lakh
+
+7. So we need to support cash-in-flow and cash-out-flow
+cash-in-flow = customer --> Ecommerce Account 
+cash-out-flow = Ecommerce Account --> Supplier
