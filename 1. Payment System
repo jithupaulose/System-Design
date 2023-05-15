@@ -50,3 +50,7 @@ Non-Functional Requirements:
 Since it is a financial usecases, should focus on reliablity and Fault Tolerance. Payments should be carefully handled.
 
 Reconcilaiation process at the end of the day to validate the transactions and making sure that system is consistent.
+
+Estimate Calculation:
+Transaction per Seconds : 1 million/10^5  = 1000000/100000 = 10/seconds
+It means we need a database that store the payment transcation correctly at high throughput
