@@ -54,3 +54,31 @@ Reconcilaiation process at the end of the day to validate the transactions and m
 Estimate Calculation:
 Transaction per Seconds : 1 million/10^5  = 1000000/100000 = 10/seconds
 It means we need a database that store the payment transcation correctly at high throughput
+
+High Level Design:
+We need to care about 2 steps
+
+Cash-in-flow == When the customer place an order, money transfer from customer account to Amazon bank account. Amazon takes a commision and transportation fees
+
+Cash-out-flow == Once the product shipped and recieved by the customer, money transfered from Amazon Bank account to Supplier account
+
+DRAW THE DIAGRAM with Components:
+
+Components:
+
+Payment Event
+Payment Service with DB
+Payment Executor with DB
+Ledger with DB
+Wallet with DB
+Payment Service Provider PSP 
+
+STEPS:
+1. When user clicks place order button, payment event is generated and send to payment service.
+2. Payment service stores the event in database
+3. In a single order, multiple products in a single order by differnt sellers. Split the payment based on orders or Sellers and passed to Payment Executors
+4. Payment Executor stores the payment orders in the database.
+5. Payment Executor calls the external PSP to process the credit/Debit card Payment
+6. External PSP validate the credentials and process the payment.
+7. PSP sends confirmation to Payment service if accept or failed confirmation 
+8. Added the records in Ledger and Wallet . Ledger - credited/Debited amount from the accounts. Wallet track the balance amount of each merchant. 
