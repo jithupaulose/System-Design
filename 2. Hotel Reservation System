@@ -1,3 +1,20 @@
 Introduction:
 
 This is similar to AirBnb reservation, Flight reservation, Movie Threature Reservation
+
+Question that can ask to interviewer:
+
+1. What will be the scale of the System ?
+Buiding a website of a hotel chain that has 5000 hotels and 1 million hotel rooms in total.
+
+2. Do the Customer pay in full from the website?
+For simplicity, customer will pay in full
+
+3. Can customer have option to cancel the reservation?
+Yes
+
+4. Do we need to include Overbooking features? 
+Yes. 10%. Hotel will sell more rooms than actual they have by thinking it can compensate when other cancel their reservation
+
+5. Do we need to do Dynamically price change based on the weekdays, weekends and special events ?
+Yes. 
