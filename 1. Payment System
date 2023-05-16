@@ -82,3 +82,12 @@ STEPS:
 6. External PSP validate the credentials and process the payment.
 7. PSP sends confirmation to Payment service if accept or failed confirmation 
 8. Added the records in Ledger and Wallet . Ledger - credited/Debited amount from the accounts. Wallet track the balance amount of each merchant. 
+
+
+POST /v1/payments
+
+This endpoints will execute a payment event. 
+
+GET /v1/payments{:id}
+
+This endpoint give the status of a single payment orders
