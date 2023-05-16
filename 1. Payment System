@@ -83,7 +83,7 @@ STEPS:
 7. PSP sends confirmation to Payment service if accept or failed confirmation 
 8. Added the records in Ledger and Wallet . Ledger - credited/Debited amount from the accounts. Wallet track the balance amount of each merchant. 
 
-
+APIs for Payment Service:
 POST /v1/payments
 
 This endpoints will execute a payment event. 
@@ -91,3 +91,92 @@ This endpoints will execute a payment event.
 GET /v1/payments{:id}
 
 This endpoint give the status of a single payment orders
+
+
+Table Modelling::
+Two Tables:
+
+Payment Event :
+CheckOutID : (Global Unique ID for the checkOut) -> Primary Key
+BuyerInfo: String
+SellerInfo: String 
+CreditCard/Debit_CardInfo :  
+Payment_done : Boolean
+
+Payment Order:
+payementOrderID: Global unique ID --> Primary Key
+BuyerAccount: 
+CheckOutID: Foriegn Key
+Currency:
+amount:
+PaymentOrderStatus: string
+Ledger_Updated: Boolean
+Wallet_updated: Boolean
+
+Since it a Financial Usecase, Need to be ACID complaint , relational Database is suitable for it.
+
+Detailed Design:
+PSP Integration
+Reconciliation
+Handling Payment processing Delays
+Communication among Internal Services
+Handling Failed Payments
+Exact one delivery
+Consitency & Idempotency
+Security
+
+
+
+PSP Integration:
+
+There are two ways we can do:
+1. Directly connect with BANK or Card Schemas like VISA/MasterCard 
+2. With thirdparty integration
+
+It is important to store the sensitive information (credit card/ User details). Complex to integrate with multiple banks and different types of cards(VISA, MASTERCARD, DISCOVER, RUPPAY, INTERNATIONAL, LOCALs).
+
+If the company choose external PSP, PSP provides a hosted Payment Page to collect the card informations and securely store them in PSP. Most of the companies do these integration.
+
+Hosted Page provides = Checkout Page --> Payment Page --> Payment complete Page
+
+1. Suppose user added all the products he/she want to purchase in the cart.
+2. User clicks the checkout button in the website and client calls payment service in the backend with the payment order informations with a unique PaymentID(UUID)
+3. Payment service sends a registration request to PSP. It includes the amount, currency, date, and redirect url,orderID details. 
+4. PSP creates a tokenkey for that PaymentID and return back to payment service and store it in DB for that particular PaymentID.
+5. Once the tocken is persisted, Client get displayed a Payment hosted page where user can enter credit card and other user infomation which is stored and procesing only on PSP database.
+6. PSP return the payment status.
+7. Webpage is redirected to the status page where the user can see the status.
+8. once the payment is complete the user will recieve an email that it is succesfully completed and share ETA for the delivery.
+
+
+Reconciliation:
+Since the payment services have many components that interact each other via asynchronously, there is no guarantee that we will get the response. Inorder to tally or verify the settlement between the processs, PSP shared a daily file at night to Payment service. A reconcilaiation process is setup which will parse the file and and verify each transactions and amount deducted from the customer and how much it transfered.  If there is any mismatch an email is shared to the admin, or if it  a refresh in the Ledger database, it will refresh and get the updated status.
+
+
+Handling Payment Processing Delays:
+There are cases where payment transaction will takes more hours for verification. So the user will get a page where he/she can view the status -pending and write if any pending action needed from user required- either verify opt code or zip number etc. 
+
+Asynchronous Communications: In the paymenet system, Each events should share it to different groups. For Exp: Analytics team, Marketing, Billing team. It is recommend to add a asynchrouous system in betweem to share the update example KAFKA.
+
+Handling Failed Transactions:
+Each Payment system should handle failed transactions. Reliablity and fault tolerence are the key points here.
+Tracking the each payment status. If it is failed system should have ability to retry it or refund it.
+Need a process to orchestrate the failed transcations, if the limit cross certain time, put it in DLQ(dEAD lETTER Que) for further analysis by the admins.
+
+Exactly one Delivery:
+One of the important problems is Double charges:
+2 cases: USER clicks multiple times checkout, Delay of the payment response from PSP due to Network errors
+To solve it, when creating a token, for unique token UUID(idempotency) for each paymentID which is persisted in a DB. it get stored in both PSP and Payment service side. If the user clicks muliple times, only one execution is processs. 
+
+Follow Ledger System Service for consistency. Wallet keeps all the balance for each merchants. 
+In a distributed Environment, Network issue happens. Data stores in multiple Data centers. Follow master -slave architecture. Read from one central database, update to the replica's. Add Load Balancer to evenly
+distibute the requests.
+
+Security: 
+Request- Response --> HPPS.
+Put Rate Limiter to limit the transactions per seconds at peak time.
+Firewall for DoS attack.
+Data replications accross multiple centers.
+Encription of data and Monitoring of the system.
+Performance Monitoring.
+
