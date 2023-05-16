@@ -31,4 +31,24 @@ Supports high concurrency
 latency
 
 
-Estimate Calculations
+Estimate Calculations::
+there are 5000 Hotels and 1 million rooms
+
+Assume 70% of rooms will occupied and average stay will be 3 days
+
+Estimate Daily Reservations = 10^6 * .7 /3 = round 240,000
+Reservation per seconds = 240,000/10^5 = round 3. Tps(Transaction Per Second) is not high.
+
+TPS Transactions Per Second is the number of transactions per second. A transaction is a process in which a client sends a request to a server and the server responds. The client starts timing when it sends a request, and ends timing after receiving the server's response, so as to calculate the time used and the number of completed transactions.
+
+QPS Queries Per Second is the query rate per second, which is the corresponding number of queries that a server can perform per second. That is the maximum throughput.
+
+There are 3 Layer: 
+View the Hotel/Room list page
+View Booking page ---> date, no of reservation, type of roooms
+Reserve Room ---> When user clicks confirmation, room is reserved.
+
+Let's assume 10% of the users reach the next steps.
+So we found TPS is 3 for reserved room, then QPS is also 3
+30 for booking page QPS.
+300 for View Hotel/room details
