@@ -18,3 +18,14 @@ Yes. 10%. Hotel will sell more rooms than actual they have by thinking it can co
 
 5. Do we need to do Dynamically price change based on the weekdays, weekends and special events ?
 Yes. 
+
+Functional Requirements:
+Build a Hotels related page to pick the right hotel
+Show the hotel room related info - Queen, King, XL, Double etc
+Reserve the room. Payment section
+Add or remove room by Admin 
+Support Over-bookings/ Dynamic price-change
+
+Non-functional Requirements:
+Supports high concurrency
+latency
